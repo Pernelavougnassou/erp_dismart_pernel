@@ -82,7 +82,7 @@ var DataTable = $.fn.dataTable;
  *  @constructor
  *  @global
  *  @param {object} dt DataTables settings object or API instance
- *  @param {object} [opts={}] Configuration object for FixedColumns. Options 
+ *  @param {object} [opts={}] Configuration object for FixedColumns. Options
  *    are defined by {@link Scroller.defaults}
  *
  *  @requires jQuery 1.7+
@@ -320,7 +320,7 @@ $.extend( Scroller.prototype, {
 	*/
 	pageInfo: function()
 	{
-		var 
+		var
 			dt = this.s.dt,
 			iScrollTop = this.dom.scroller.scrollTop,
 			iTotal = dt.fnRecordsDisplay(),
@@ -633,7 +633,7 @@ $.extend( Scroller.prototype, {
                 tbody.append('<tr><td>&#160;</td></tr>');
             }
 		}
-	
+
 		$('div.'+dt.oClasses.sScrollBody, container).append( nTable );
 
 		// If initialised using `dom`, use the holding element as the insert point
@@ -762,7 +762,7 @@ $.extend( Scroller.prototype, {
 	 * had scrolling containers of infinite height (i.e. the absolute value)
 	 *
 	 *  @param {string} dir Domain transform direction, `virtualToPhysical` or
-	 *    `physicalToVirtual` 
+	 *    `physicalToVirtual`
 	 *  @returns {number} Calculated transform
 	 *  @private
 	 */
@@ -793,7 +793,7 @@ $.extend( Scroller.prototype, {
 			return heights.virtual - diff;
 		}
 
-		// Otherwise, we want a non-linear scrollbar to take account of the
+		// Otherwise, we want a non-linear scrollbar to take accounts of the
 		// redrawing regions at the start and end of the table, otherwise these
 		// can stutter badly - on large tables 30px (for example) scroll might
 		// be hundreds of rows, so the table would be redrawing every few px at

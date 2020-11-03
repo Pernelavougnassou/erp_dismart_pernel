@@ -24,10 +24,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Demande extends Model
 {
     use SoftDeletes;
-    
+
 
     public $table = 'demandes';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -79,5 +79,32 @@ class Demande extends Model
         'date_fermeture' => 'required'
     ];
 
-    
+    public  function Departements () {
+        return $this->hasOne('App\Models\Departement');
+    }
+
+    public  function Projet_Users () {
+        return $this->hasOne('App\Models\Projet_User');
+    }
+
+    public  function Niveau_Importances () {
+        return $this->hasOne('App\Models\Niveau_Importance');
+    }
+
+    public  function Type_Demandes () {
+        return $this->hasOne('App\Models\Type_Demande');
+    }
+
+    public  function Projets () {
+        return $this->hasOne('App\Models\Projet');
+    }
+
+    public  function Contrats () {
+        return $this->hasOne('App\Models\Contrat');
+    }
+
+    public  function Users () {
+        return $this->hasOne('App\Models\User');
+    }
+
 }

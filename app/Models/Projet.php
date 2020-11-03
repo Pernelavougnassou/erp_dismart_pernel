@@ -22,7 +22,7 @@ class Projet extends Model
     use SoftDeletes;
 
     public $table = 'projets';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -63,5 +63,8 @@ class Projet extends Model
         'service_id' => 'required'
     ];
 
-    
+    public  function Demandes () {
+        return $this->hasOne('App\Models\Demande');
+    }
+
 }

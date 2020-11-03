@@ -8,7 +8,7 @@
         <!-- <th>Password</th> -->
         <th>Fonction</th>
         <th>Role Id</th>
-                <th colspan="3">Action</th>
+                <th colspan="2">Action</th>
             </tr>
         </thead>
         <tbody>

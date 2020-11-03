@@ -17,7 +17,7 @@ class Type_Demande extends Model
     use SoftDeletes;
 
     public $table = 'type__demandes';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -46,5 +46,8 @@ class Type_Demande extends Model
         'type' => 'required|unique:type__demandes'
     ];
 
-    
+    public function Demandes () {
+        return $this->belongsTo('App\Models\Demande');
+    }
+
 }

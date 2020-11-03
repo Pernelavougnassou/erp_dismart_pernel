@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Client;
+
+class ProfilFormController extends Controller
+{
+    // Create Client Form
+    public function ProfilForm(Request $request) {
+        return view('profils.index');
+    }
+
+    // Store client Form data
+    public function EditProfilForm (Request $request) {
+
+        // Form validation
+        $this->validate($request, [
+            'nom' => 'required',
+            'prenom' => 'required',
+            'telephone1' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'telephone2' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'email' => 'required|email',
+            'site_web'=>'required',
+            'notes' => 'required'
+        ]);
+
+        //  Store data in database
+        Client::create($request->all());
+
+        //
+        return back()->with('success', 'We have received your message and would like to thank you for writing to us.');
+    }
+}

@@ -17,7 +17,7 @@ class Role extends Model
     use SoftDeletes;
 
     public $table = 'roles';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -46,15 +46,8 @@ class Role extends Model
         'nom_role' => 'required|unique:roles'
     ];
 
-    /**
-     * One to Many relation
-     *
-     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User');
+    public  function users() {
+        return $this->belongsToMany('App\Models\User');
     }
- 
-    
+
 }

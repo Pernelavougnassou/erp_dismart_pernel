@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateDemandeRequest;
 use App\Http\Requests\UpdateDemandeRequest;
+use App\Models\Demande;
 use App\Repositories\DemandeRepository;
 use App\Http\Controllers\AppBaseController;
 use App\Notifications\DemandeNotification;
@@ -17,6 +18,7 @@ use App\Models\Contrat;
 use App\Models\Projet;
 use App\Models\Projet_User;
 use Flash;
+use Illuminate\Support\Facades\DB;
 use Response;
 
 class DemandeController extends AppBaseController
@@ -58,7 +60,6 @@ class DemandeController extends AppBaseController
      */
     public function create()
     {
-
         return view('demandes.create');
     }
 
@@ -78,8 +79,6 @@ class DemandeController extends AppBaseController
         $user->notify(new DemandeNotification());
 
         Flash::success('Demande saved successfully.');
-
-
         return redirect(route('demandes.index'));
     }
 
@@ -112,9 +111,7 @@ class DemandeController extends AppBaseController
      */
     public function edit($id)
     {
-        
         $demande = $this->demandeRepository->find($id);
-
         if (empty($demande)) {
             Flash::error('Demande not found');
 
@@ -143,12 +140,12 @@ class DemandeController extends AppBaseController
         }
 
         $demande = $this->demandeRepository->update($request->all(), $id);
-        
+
         $user = Auth::user();
         $user->notify(new DemandeNotification());
 
         Flash::success('Demande updated successfully.');
-        
+
 
         return redirect(route('demandes.index'));
     }
@@ -180,4 +177,54 @@ class DemandeController extends AppBaseController
 
         return redirect(route('demandes.index'));
     }
+
+    // Create Demande Form
+    public function showform (Request $request)
+    {
+        $user = User::where('id', auth()->user()->id)->first();
+        $equipeprojets = Projet_User::where('user_id', $user->id)->get();
+
+        $projetItems = Projet::pluck('nom_projet');
+        $niveau_importanceItems = Niveau_Importance::pluck('niveau');
+        $type_demandeItems = Type_Demande::pluck('type');
+        $responsableItems = User::pluck('nom');
+        $contratItems = Contrat::pluck('statut');
+        $departementItems = Departement::pluck('nom_departement');
+
+        return view('espaceclients.demandeform', compact(['user', 'projetItems', 'niveau_importanceItems', 'type_demandeItems',
+            'type_demandeItems', 'responsableItems', 'contratItems', 'equipeprojets', 'departementItems']));
+    }
+
+    // Store Demande Form data
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storedemandeform (Request $request)
+    {
+       $objet = request('objet');
+       $projetuser = Projet::where('nom_projet', request('projetuser')) ->get('id');
+       $message = request('message');
+       $niveau = Niveau_Importance::where('niveau' , request('niveau'));
+       $type = Type_Demande::where('type', request('type'));
+       $statut = Contrat::where('statut', request('statut'));
+       $responsable = User::where('nom', request('responsable'));
+       $date = request('date');
+
+        DB::table('demandes')->insert([
+            'objet' => $objet,
+            'projet_user_id' => $projetuser,
+            'message' => $message,
+            'niveau_importance_id' => $niveau,
+            'type_demande_id' => $type,
+            'statut' => $statut,
+            'responsable' => $responsable,
+            'date' => $date
+        ]);
+        // Demande::create([]);
+        // echo 'Demande ajoutée avec succès';
+    }
+
 }

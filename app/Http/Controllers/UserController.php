@@ -6,6 +6,7 @@ use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
 use App\Http\Controllers\AppBaseController;
+use Gate;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\NewUser;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class UserController extends AppBaseController
     /** @var  UserRepository */
     private $userRepository;
 
-    
+
 
     public function __construct(UserRepository $userRepo)
     {
@@ -40,7 +41,7 @@ class UserController extends AppBaseController
 
         return view('users.index',compact('roles'))
             ->with('users', $users);
-    } 
+    }
 
     /**
      * Show the form for creating a new User.
@@ -64,7 +65,7 @@ class UserController extends AppBaseController
         $input = $request->all();
 
         $user = $this->userRepository->create($input);
-        
+
 
         Flash::success('User saved successfully.');
         $user = Auth::user();
@@ -102,15 +103,24 @@ class UserController extends AppBaseController
      */
     public function edit($id)
     {
+        /*
+        if (Gate::denies('edit-users')) {
+            return redirect(route('users.index'));
+        }
+        */
+
         $user = $this->userRepository->find($id);
-       
+        $roles = Role::all();
+
         if (empty($user)) {
             Flash::error('User not found');
-
             return redirect(route('users.index'));
         }
 
-        return view('users.edit')->with('user', $user);
+        return view('users.edit')->with([
+            'user'=> $user,
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -124,6 +134,7 @@ class UserController extends AppBaseController
     public function update($id, UpdateUserRequest $request)
     {
         $user = $this->userRepository->find($id);
+        // $user->roles()->sync($request->roles);
 
         if (empty($user)) {
             Flash::error('User not found');
@@ -152,6 +163,14 @@ class UserController extends AppBaseController
     public function destroy($id)
     {
         $user = $this->userRepository->find($id);
+
+        /*
+        if (Gate::denies('delete-users')) {
+            return redirect(route('users.index'));
+        }
+        */
+        // $user->roles()->detach();
+        //  $user = delete();
 
         if (empty($user)) {
             Flash::error('User not found');

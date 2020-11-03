@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -31,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    //protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -58,8 +59,6 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'fonction' => ['required', 'string', 'max:255'],
             'role_id' => ['required', 'integer'],
-
-
         ]);
     }
 
@@ -71,8 +70,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        
-        return User::create([
+
+         $user = User::create([
             'prenom' => $data['prenom'],
             'nom' => $data['nom'],
             'email' => $data['email'],
@@ -80,8 +79,33 @@ class RegisterController extends Controller
             'fonction' => $data['fonction'],
             'role_id' => $data['role_id'],
         ]);
+
+        $role = Role::select('id')->where('nom_role', 'user')->first();
+        $user->roles()->attach($role);
+
+        return  $user;
     }
 
+    public function authenticated(Request $request)
+    {
+        $input = $request->all();
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
+        {
+            if (auth()->user()->role_id == 1) {
+                return redirect()->route('users');
+            }else{
+                return redirect()->route('espaceclients.index');
+            }
+        }else{
+            return redirect()->route('login')
+                ->with('error','Email-Address And Password Are Wrong.');
+        }
+    }
 
     /*
     protected function registered(Request $request, User $user)
@@ -89,8 +113,8 @@ class RegisterController extends Controller
         $admins = User::whereAdmin(true)->get();
         foreach($admins as $admin) {
             $admin->notify(new NewUser());
-        }        
-    
+        }
+
     }
     */
 

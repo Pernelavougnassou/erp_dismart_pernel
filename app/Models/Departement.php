@@ -17,7 +17,7 @@ class Departement extends Model
     use SoftDeletes;
 
     public $table = 'departements';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -46,5 +46,8 @@ class Departement extends Model
         'nom_departement' => 'required|unique:departements'
     ];
 
-    
+    public function Demandes () {
+        return $this->belongsTo('App\Models\Demande');
+    }
+
 }

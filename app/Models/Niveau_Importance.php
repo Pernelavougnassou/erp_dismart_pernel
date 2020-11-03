@@ -17,7 +17,7 @@ class Niveau_Importance extends Model
     use SoftDeletes;
 
     public $table = 'niveau__importances';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -46,5 +46,8 @@ class Niveau_Importance extends Model
         'niveau' => 'required|unique:niveau__importances'
     ];
 
-    
+    public function Demandes () {
+        return $this->belongsTo('App\Models\Demande');
+    }
+
 }

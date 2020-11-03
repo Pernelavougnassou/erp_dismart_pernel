@@ -15,7 +15,7 @@ class User extends Authenticatable
     use SoftDeletes;
 
     public $table = 'users';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -66,8 +66,6 @@ class User extends Authenticatable
         'fonction' => 'string'
     ];
 
-
-    
     public static function boot()
     {
         parent::boot();
@@ -76,7 +74,7 @@ class User extends Authenticatable
         {
             $model->user_created = Auth::user()->id ?? null;
             $model->user_modified = Auth::user()->id ?? null;
-            
+
         });
 
         static::updating( function ($model)
@@ -84,10 +82,38 @@ class User extends Authenticatable
             $model->user_modified = Auth::user()->id ?? null;
         });
     }
-    
+
+    public  function Demandes () {
+        return $this->hasOne('App\Models\Demande');
+    }
+
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
     }
-    
+
+    public  function roles() {
+        return $this->belongsToMany('App\Models\Role');
+    }
+
+    public function hasAnyRoles (array $roles) {
+        if ($this->roles()->whereIn('nom_role', $roles)->first()) {
+            return true;
+        }
+        return  false;
+    }
+
+    public function hasRole ($role) {
+        if ($this->roles()->where('nom_role', $role)->first()) {
+            return true;
+        }
+        return  false;
+    }
+
+    /*
+    public function profil () {
+        return $this->hasOne('App\Models\Profil');
+    }
+    */
+
 }

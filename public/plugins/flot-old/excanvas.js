@@ -830,7 +830,7 @@ if (!document.createElement('canvas').getContext) {
 
     // If filters are necessary (rotation exists), create them
     // filters are bog-slow, so only create them if abbsolutely necessary
-    // The following check doesn't account for skews (which don't exist
+    // The following check doesn't accounts for skews (which don't exist
     // in the canvas spec (yet) anyway.
 
     if (this.m_[0][0] != 1 || this.m_[0][1] ||
@@ -939,11 +939,11 @@ if (!document.createElement('canvas').getContext) {
                          mr(p.xEnd), ',', mr(p.yEnd));
             break;
         }
-  
-  
+
+
         // TODO: Following is broken for curves due to
         //       move to proper paths.
-  
+
         // Figure out dimensions so we can do gradient fills
         // properly
         if (p) {
@@ -962,15 +962,15 @@ if (!document.createElement('canvas').getContext) {
         }
       }
       lineStr.push(' ">');
-  
+
       if (!aFill) {
         appendStroke(this, lineStr);
       } else {
         appendFill(this, lineStr, min, max);
       }
-  
+
       lineStr.push('</g_vml_:shape>');
-  
+
       this.element_.insertAdjacentHTML('beforeEnd', lineStr.join(''));
     }
   };
@@ -1210,7 +1210,7 @@ if (!document.createElement('canvas').getContext) {
 
   /**
    * The text drawing function.
-   * The maxWidth argument isn't taken in account, since no browser supports
+   * The maxWidth argument isn't taken in accounts, since no browser supports
    * it yet.
    */
   contextPrototype.drawText_ = function(text, x, y, maxWidth, stroke) {

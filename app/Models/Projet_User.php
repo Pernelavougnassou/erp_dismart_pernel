@@ -18,7 +18,7 @@ class Projet_User extends Model
     use SoftDeletes;
 
     public $table = 'projet_users';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -65,7 +65,10 @@ class Projet_User extends Model
         {
             $model->user_modified = Auth::user()->id ?? null;
         });
-    }    
+    }
 
-    
+    public function Demandes () {
+        return $this->belongsTo('App\Models\Demande');
+    }
+
 }

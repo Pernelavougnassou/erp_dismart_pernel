@@ -2494,9 +2494,9 @@ Licensed under the MIT license.
                 radius = series.points.radius,
                 symbol = series.points.symbol;
 
-            // If the user sets the line width to 0, we change it to a very 
+            // If the user sets the line width to 0, we change it to a very
             // small value. A line width of 0 seems to force the default of 1.
-            // Doing the conditional here allows the shadow setting to still be 
+            // Doing the conditional here allows the shadow setting to still be
             // optional even with a lineWidth of 0.
 
             if( lw == 0 )
@@ -2539,7 +2539,7 @@ Licensed under the MIT license.
                 top = y + barLeft;
                 bottom = y + barRight;
 
-                // account for negative bars
+                // accounts for negative bars
                 if (right < left) {
                     tmp = right;
                     right = left;
@@ -2556,7 +2556,7 @@ Licensed under the MIT license.
                 bottom = b;
                 top = y;
 
-                // account for negative bars
+                // accounts for negative bars
                 if (top < bottom) {
                     tmp = top;
                     top = bottom;

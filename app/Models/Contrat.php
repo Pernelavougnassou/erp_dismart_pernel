@@ -22,7 +22,7 @@ class Contrat extends Model
     use SoftDeletes;
 
     public $table = 'contrats';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -65,5 +65,8 @@ class Contrat extends Model
         'statut' => 'required'
     ];
 
-    
+    public  function Demandes () {
+        return $this->hasOne('App\Models\Demande');
+    }
+
 }

@@ -246,7 +246,7 @@
             // Create the legends for areas
             self.createLegends("area", self.areas, 1);
 
-            // Create the legends for plots taking into account the scale of the map
+            // Create the legends for plots taking into accounts the scale of the map
             self.createLegends("plot", self.plots, self.paper.width / self.mapConf.width);
 
             // Attach update event
@@ -340,7 +340,7 @@
                     // Set new size
                     self.paper.setSize(containerWidth, self.mapConf.height * newScale);
 
-                    // Create plots legend again to take into account the new scale
+                    // Create plots legend again to take into accounts the new scale
                     // Do not do this on init (it will be done later)
                     if (isInit !== true && self.options.legend.redrawOnResize) {
                         self.createLegends("plot", self.plots, newScale);
